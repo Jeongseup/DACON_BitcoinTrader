@@ -1,4 +1,4 @@
 ## DACON_BitcoinTrader Ignore File ##
 
-*.ipynb_checkpoints
-*.data
+data/
+.ipynb_checkpoints/
