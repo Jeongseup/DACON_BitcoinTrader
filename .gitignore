@@ -1,6 +1,12 @@
 ## DACON_BitcoinTrader Ignore File ##
 
-data/
+
+
+# ignore directory
 .ipynb_checkpoints/
-*.html/
 .vscode/
+__pycache__/
+experiment/
+coin_index/
+model/
+study/
