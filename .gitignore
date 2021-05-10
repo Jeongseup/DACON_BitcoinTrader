@@ -1,6 +1,7 @@
 ## DACON_BitcoinTrader Ignore File ##
 
 .ipynb_checkpoints/
+**/*.csv
 **/*.log
 **/.vscode/
 **/__pycache__/
