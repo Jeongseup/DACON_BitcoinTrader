@@ -3,6 +3,18 @@ ___
 ## chapter.1 - EDA(Exploratory Data Analysis)
 ### 데이터 공부
 <a href ='./coin_eda.ipynb'>EDA 정리</a>
+
+* 데이터 메모
+```python
+''' greedy feature handleing'''
+# test_df = train_x_df[train_x_df['volume'] != 0]
+# test_df['rest_asset'] = test_df['volume'] - test_df['tb_base_av']
+# test_df['greedy'] = test_df['tb_base_av'] / test_df['volume']
+
+# test_df2 = test_df[['time', 'coin_index', 'open', 'high', 'low', 'close', 'volume', 'trades', 'tb_base_av','rest_asset', 'greedy']]
+# test_df2[['coin_index','trades', 'volume', 'tb_base_av','rest_asset', 'greedy']].head()
+# test_df2[test_df2['greedy'] == 1][['coin_index','trades', 'volume', 'tb_base_av','rest_asset', 'greedy']].head()
+```
 ___
 
 ## chapter.2 - Season 1 model pilot
