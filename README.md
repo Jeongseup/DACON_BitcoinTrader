@@ -15,6 +15,28 @@ ___
 # test_df2[['coin_index','trades', 'volume', 'tb_base_av','rest_asset', 'greedy']].head()
 # test_df2[test_df2['greedy'] == 1][['coin_index','trades', 'volume', 'tb_base_av','rest_asset', 'greedy']].head()
 ```
+
+```python
+print(
+    f'''
+    {df.high.max()}
+    {df.low.max()}
+    {df.open.max()}
+    {df.close.max()}
+    
+    
+    {df.high.min()}
+    {df.low.min()}
+    {df.open.min()}
+    {df.close.min()}
+    
+    '''
+    
+    ''' high - low = 변동폭 \n'''
+    ''' 음봉양봉 구분 추가 가능'''
+)
+
+```
 ___
 
 ## chapter.2 - Season 1 model pilot
