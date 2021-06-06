@@ -12,7 +12,10 @@ ___
 #### train_x_df EDA 과정 설명
 * sample_id : 한 시퀀스 샘플, 한 시퀀스는 1380분의 시계열 데이터로 구성
  아래 예시
-![train_x_df_eda_image](./images/train_x_df_eda.png)
+<center>
+<img src="./images/train_x_df_eda.png">
+데이터 샘플 예시
+</center>
 
 #### In one sample, dataset description
 - X : 1380분(23시간)의 연속 데이터
@@ -24,8 +27,11 @@ ___
 #### 코인별 샘플 개수
 - 각 코인별로 샘플 개수는 다름
 - 9, 8번의 샘플 수가 가장 많음
-![coin_index_image](./images/coin_index.png)
 
+<center>
+<img src="./images/coin_index.png" width=500 height=300><br>
+코인 인덱스 별 데이터 샘플 개수
+</center>
 
 #### 모르는 데이터 피쳐 조사
 - 'Volume' - ' Taker buy base asset volume' = ' Maker buy base asset volume'
@@ -55,11 +61,16 @@ volume / quote_av
 
 #### Open price outlier problem 
 - 샘플 내 outlier 너무 빈도가 적고, regression으로 학습하기 어려움(raw, smoothing, log smoothing 별 차이 없음)
-![price_displot_image](./images/price_displot.png)
-<center><open price distribution plot></center>
 
-![price_boxplot_image](./images/price_boxplot.png)
-<center><open price box plot></center>
+<center>
+<img src="./images/price_displot.png" width=500 height=300><br>
+open price distribution plot
+</center>
+
+<center>
+<img src="./images/price_boxplot.png" width=500 height=300><br>
+price box plot
+</center>
 
 - open price outlier detection tempary method code
 ```python
@@ -71,8 +82,12 @@ for temp_arr in outlier_arr:
 
 filtered_y_df = raw_y_df[~raw_y_df["sample_id"].isin(outlier_list)]
 ```
-![outlier_image](./images/outlier_image.png)
-<center><outlier range boxplot></center>
+
+<center>
+<img src="./images/outlier_image.png" width=500 height=300><br>
+outlier range boxplot
+</center>
+
 
 #### EDA code
 coin eda code link : <a href ='./coin_eda.ipynb'>"here"</a>
@@ -142,11 +157,14 @@ future_data = prophet.make_future_dataframe(periods=120, freq='min')
 forecast_data = prophet.predict(future_data)
 
 ```
-#### result plot
-![season_1_pilot_image](./images/season_1_pilot.png)
-<center><season 1 model pilot></center>
 
-#### season 1 pilot code
+##### result plot
+<center>
+<img src="./images/season_1_pilot.png" width=600 height=300><br>
+season 1 model pilot
+</center>
+
+##### season 1 pilot code
 season 1 pilot code link : <a href ='./season1_pilot.ipynb'>"here"</a>
 
 ___
@@ -171,8 +189,11 @@ def train(x_series, y_series, args):
 
     return error*10E5
 ```
-![colab_arima_prediction_image](./images/colab_arima_prediction.png)
-<center><open price ARIMA prediction plot></center>
+##### result
+<center>
+<img src="./images/colab_arima_prediction.png" width=300 height=200><br>
+open price ARIMA prediction plot
+</center>
 
 Colab link : https://colab.research.google.com/drive/1x28Mi9MSqqkSTO2a8UU0wXDzgXNy2WT9?usp=sharing<br>
 
@@ -198,11 +219,13 @@ prophet.fit(x_df)
 future_data = prophet.make_future_dataframe(periods=120, freq='min')
 forecast_data = prophet.predict(future_data)
 ```
-- sample_id = 1, dataset 예측 결과
-![colab_prophet_prediction_image](./images/colab_prophet_prediction.png)
-<center><open price prophet prediction plot></center>
+##### sample_id = 1, dataset 예측 결과
+<center>
+<img src="./images/colab_prophet_prediction.png" width=300 height=200><br>
+open price prophet prediction plot
+</center>
+<br>
 Colab link : https://colab.research.google.com/drive/1dDf6AIln31catWWDsrB_lbL-0M5DsZTd?usp=sharing<br>
-
 
 
 #### Neural Prophet trial
@@ -363,8 +386,12 @@ def train(x_train, y_train, n_epoch, n_batch, x_val, y_val):
 
     return model
 ```
-![keras_LSTM_image](./images/keras_LSTM.png)
-<center><Keras LSTM predition plot></center>
+##### result
+<center>
+<img src="./images/keras_LSTM.png" width=500 height=300><br>
+Keras LSTM predition plot
+</center>
+<br>
 
 Colab link : https://colab.research.google.com/drive/1oCCXpJSlLXDs6x968eYrIPQtzEo0klMq?usp=sharing<br>
 
@@ -382,8 +409,11 @@ model = keras.models.Sequential(
 model.compile(optimizer='adam', loss='mse')
 model.summary()
 ```
-![keras_GRU_image](./images/keras_GRU.png)
-<center><Keras GRU predition plot></center>
+##### result
+<center>
+<img src="./images/keras_GRU.png" width=500 height=300><br>
+Keras GRU predition plot
+</center><br>
 
 Colab link : https://colab.research.google.com/drive/1w2GZXVXSjRX-tlI49WAcC77szQaK_H6R?usp=sharing<br>
 ___
@@ -429,9 +459,10 @@ def moving_average(arr, window_size = 10):
             
     return ma[:, :, 1] # open col is 1
 ```
-
-![smoothing_image](./images/smoothing.png)
-<center> price data smoothing plot
+##### smoothing result
+<center>
+<img src='./images/smoothing.png'>
+price data smoothing plot
 </center>
 
 #### Data discretize
@@ -447,9 +478,11 @@ kb.fit(open_y_series)
 #  이때 `bin_edges_` 메소드를 이용하여 저장되어진 경계값을 확인할 수 있다.
 print("bin edges :\n", kb.bin_edges_ )
 ```
-
-![resnet_image](./images/kbinsdiscretize_plot.png)
-<center><kbinsdiscretizer before & after plot></center>
+##### discretize result
+<center>
+<img src="./images/kbinsdiscretize_plot.png" width=500 height=300><br>
+kbinsdiscretizer before & after plot
+</center>
 
 
 #### Data log normalization
@@ -464,10 +497,12 @@ ___
 
 ### Chapter. 5 - Pytorch modeling
 #### Pytorch LSTM trial
+
+##### Only coin 9, smoothing & LSTM
 - condition
-    1. Only coin 9 data use
-    2. Data preprocess - simple exponential smoothing
-    3. LSTM layer is 1
+    - Only coin 9 data use
+    - Data preprocess - simple exponential smoothing
+    - LSTM layer is 1
 <br>
 
 - pytorch LSTM python code
@@ -509,20 +544,23 @@ class LSTM(nn.Module):
         return y_pred
 ```
 - 모델 학습 방법 시각화
-![multistep_lstm_image](./images/multistep_lstm.png)
-<center><Multistep LSTM modeling></center>
 
-<right>이미지 출처 : tensorflow tutorial</right>
-<br>
+<center>
+<img src="./images/multistep_lstm.png"><br>
+Multistep LSTM modeling(source by : tensorflow tutorial)
+</center><br>
 
-- result : modeling 내 한번에 120개의 y값을 출력시, 다음 그림처럼 패턴에 상관없이 같은 y값을 출력하게 됨. -> 실패
+##### result
+ modeling 내 한번에 120개의 y값을 출력시, 다음 그림처럼 패턴에 상관없이 같은 y값을 출력하게 됨. -> 실패
 
-![pytorch_LSTM_coin9_image](./images/pytorch_LSTM_coin9.png)
-<center><pytorch LSTM coin9 prediction plot></center>
+<center>
+<img src="./images/pytorch_LSTM_coin9.png"><br>
+coin9 LSTM prediction
+</center><br>
 
 Colab link : https://colab.research.google.com/drive/1I0Arck8qkV4FTXnOOYMxkpZGIRKCGj7J?usp=sharing
 
-
+##### Only coin 9, Slicing & LSTM
 이후, 한 샘플 내 데이터를 slicing 해서 과거 120 time-series 로 이후 120 time-series를 예측하는 모델로 변형해봤지만 실패.
 
 - one sample data slicing python code
@@ -594,7 +632,7 @@ class WindowGenerator():
 ```
 Colab link : https://colab.research.google.com/drive/11s1KCtT8NPvsaOR-1mYaR66lneQ1yxU7?usp=sharing
 
-
+##### All coin, Log norm & LSTM
 이후, 모든 코인으로 확장해서 재적용 시도
 - condition
     1. all coin data use
@@ -603,58 +641,140 @@ Colab link : https://colab.research.google.com/drive/11s1KCtT8NPvsaOR-1mYaR66lne
     3. LSTM layer is 1
 <br>
 
-- result : 이전 모델 구조는 그대로 진행하였고, 데이터 세트만 기존에 9번 코인 데이터에서 코인에 상관없이 모든 데이터 세트를 적용함. -> 어차피 코인별 각기 다른 데이터 패턴 양상이 아닌, 코인과 무관하게 가격 데이터의 움직임은 그냥 일정 패턴 별로 나뉠 것으로 예상 -> 제대로 된 학습조차 안 되며, 코인 가격 자체가 seasonal아 아예 없어서 LSTM regression이 무의미한 것으로 판정.
-
-![pytorch_LSTM_allcoin_image](./images/pytorch_LSTM_allcoin.png)
-<center>LSTM prediction with all coin data</center>
-
-Colab link : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing
-
-#### Pytorch LSTM 
-___
-<a href ='./rnn_modeling.ipynb'>RNN 모델링</a>
-sample이 1208개 있고, 한 샘플당 1500개의 시리즈 구성 -> 여기서 또 1500개 375개로씩 짤라
-한 sample 당 4개의 미니 세트로 구성된건데.. 
-
-1208 * 4 = 6832 세트
-
-6000세트는 학습시키고
-382세트는 validation 
-
-1208 샘플이 있으면 1100개 의 샘플은 학습데이터로 빼고 나머지를 split 
+##### result
+이전 모델 구조는 그대로 진행하였고, 데이터 세트만 기존에 9번 코인 데이터에서 코인에 상관없이 모든 데이터 세트를 적용함. -> 어차피 코인별 각기 다른 데이터 패턴 양상이 아닌, 코인과 무관하게 가격 데이터의 움직임은 그냥 일정 패턴 별로 나뉠 것으로 예상 -> 제대로 된 학습조차 안 되며, 코인 가격 자체가 seasonal아 아예 없어서 LSTM regression이 무의미한 것으로 판정
 
 
-어차피 시간대 별 특성이 없다고 치면. 코인 인덱스가 같으면. 
+<center>
+<img src="./images/pytorch_LSTM_allcoin.png"><br>
+LSTM prediction with all coin data
+</center><br>
 
-datasetgenerate로 0 ~ 1000까지 샘플 가지고 오고.
-1. 샘플을 가져와서 
+Colab link : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing<br>
 
-1, 1500, 12 - 
+##### All coin, outlier remove & LSTM
+이후, all coin regression시, 시즈널이 아예 벗어나는 데이터들 때문에 학습이 안되는 것이라 판단하여 y series 중에서 min-max range가 특정 기준(outlier criteria)가 넘는 샘플은 제외하고 학습 시도
 
-
-* reference : <a href = 'https://www.tensorflow.org/tutorials/structured_data/time_series?hl=ko#%EB%8B%A8%EC%9D%BC_%EC%8A%A4%ED%85%9D_%EB%AA%A8%EB%8D%B8'>tensorflow tutorial</a>
-* requirements 
-    1. tensorflow 2.x 이상과
-    2. 해당 텐서 버젼과 호환되는 numpy 
-    3. 확인방법 : tensorflow과
-    4. 내가 설치한 verison(텐서가 version2 부터는 gpu과 cpu 동시 호환을 default로 하는데, 노트북 사용자라서, cpu전용 버젼을 따로 설치함.)
-        * pip install tensorflow 2.4.0-cpu
-        * pip install numpy-1.19.2
-
-* 보통 에러 : ㄴ엄어마ㅣㅓㅇㅁ
-* 에러창 지우는 방법 : 
+- outlier remove python code
 ```python
-# tensorflow import 하기 전에, define 해야 함.
-import warnings
-warnings.filterwarnings('ignore')
-```
-___
-### 스터디 1단계 - 전반적인 코드 리뷰 및 시범운용
-우선 9번 코인(bitcoin이라 추정) 중 한 sample만 가지고 study 진행   
-* 의문점1 : Normalized를 시키는 게 맞을 지는 의문임. 이미 가격 data columns들이 time index가 1380인 시점을 기준으로 부분 정규화가 되어있음.   
-* 배운점1 : 전반적인 class를 사용해서 데이터를 처리하는 방식은 크게 배울만 함. 깔끔하게 정리되고, 여러 모델에 적용하기 용이함.
-* 배운점2 : Residual networks는 기본적으로 AR(auto-regression)이 기본 가정인듯. future은 이전 과거 데이터로 부터 생성된다. 즉, data간의 시게열 변화가 작아야 더욱 더 효용성 있는 model임.
+def outlier_detecter(raw_y_arr, outlier_criteria = 0.03):
 
+    open_arr = raw_y_arr[:, :, 1] #open col is 1
+
+    outlier_list = []
+    openrange_list = []
+
+    for idx, temp_arr in enumerate(open_arr):
+    
+        temp_min = temp_arr.min()
+        temp_max = temp_arr.max()
+        temp_arr_range = temp_max - temp_min
+        openrange_list.append(temp_arr_range)
+
+        if temp_arr_range > outlier_criteria:
+            outlier_list.append(idx)
+            print(f'{idx}번째 open series is outlier sample!')
+            print(f'temp array range is {temp_arr_range:.3}\n')
+            
+
+    return outlier_list, np.array(openrange_list)
+```
+
+<center>
+<img src="./images/pytorch_LSTM_outlier_remove.png"><br>
+outlier remove & LSTM prediction
+</center><br>
+
+
+##### All coin, kbinsdiscretize & LSTM
+outlier를 굳이 제거하지 않고, 예측해야 할 y series를 계층화시켜서 패턴을 학습시키면 몇 개의 패턴으로 예측가능할 것으로 생각했으나 실패 -> 이런 방법으로 적용시, classification문제로 변형되어 푸는 것이 맞을 듯 싶음.
+
+- kbindiscretize python code
+```python
+def kbin_discretizer(input_array):
+
+    kb = KBinsDiscretizer(n_bins=10, strategy='uniform', encode='ordinal')
+    processed_data = np.zeros((input_array.shape[0], input_array.shape[1], 1))
+    
+    for i in range(input_array.shape[0]):
+        # coin_index_export args : (input_array, coin_num)
+        globals()['processing_array{}'.format(i)] = input_array[i,:,1]
+        
+        #globals()['outliery_array{}'.format(i)] = train_y_array[outlier[i],:,1]
+        kb.fit(globals()['processing_array{}'.format(i)].reshape(input_array.shape[1],1))
+        globals()['processed_fit{}'.format(i)] = kb.transform(globals()['processing_array{}'.format(i)].reshape(input_array.shape[1],1))
+        
+        #globals()['outliery_fit{}'.format(i)] = kb.transform(globals()['outliery_array{}'.format(i)].reshape(120,1))
+        processed_data[i,:,:] = globals()['processed_fit{}'.format(i)]
+        
+    return processed_data
+```
+
+##### All coin, log norm & Conv1d-LSTM(모델 변경)
+기존 LSTM 방법으로는 너무 데이터 시퀀스가 길어서(lstm time sequence length = 1380)모델이 학습하기 어렵다고 생각하여, Conv1d로 특정 구간씩 split하여 특징을 추출하고 이를 LSTM에 반영하면 학습이 가능해질 수 있다고 생각하여 driving
+
+- Conv1d-LSTM modeling code
+```python
+class CNN_LSTM(nn.Module):
+    
+    def __init__(self, input_dim, hidden_dim, output_dim, n_layers):
+        super(CNN_LSTM, self).__init__()
+    
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.output_dim = output_dim
+        self.num_layers = n_layers
+
+        self.conv1 = nn.Conv1d(args.input_dim, args.hidden_dim, kernel_size = 10)
+        self.pooling1 = nn.MaxPool1d(2, stride = 5)
+        self.conv2 = nn.Conv1d(args.hidden_dim, args.hidden_dim // 2, kernel_size = 5)
+        self.pooling2 = nn.MaxPool1d(4, stride = 4)
+        
+        self.norm = nn.BatchNorm1d(32)
+        
+        self.lstm = nn.LSTM(32, 128, self.num_layers, batch_first = True, bidirectional = True)
+        self.linear = nn.Linear(256, args.output_dim)
+        self.flatten = nn.Flatten()
+        
+    def init_hidden(self, batch_size):
+        return (torch.zeros(self.num_layers, batch_size, self.hidden_dim),
+                torch.zeros(self.num_layers, batch_size, self.hidden_dim))
+    
+    
+    def forward(self, X):
+        
+        # input은 (Batch, Feature dimension, Time_step)순
+        output = F.relu(self.conv1(X))
+        output = self.pooling1(output)
+        output = F.relu(self.conv2(output))
+        output = self.pooling2(output)
+        # output = self.flatten(output)
+
+        # [Batch_size, Seq_len, Hidden_size]
+        # x_input.reshape(1, -1, self.output_dim
+        # torch.Size([16, 32, 135])
+        # torch.Size([16, 135, 32])
+        
+        output, self.hidden = self.lstm(output.reshape(args.batch_size, -1, 32))
+        y_pred = self.linear(output[:, -1, :])
+        
+        return y_pred
+
+```
+
+<center>
+<img src="./images/pytorch_Conv1dLSTM_allcoin.png">
+Conv1d-LSTM prediction
+</center><br>
+
+#### RNN 모델링 결론
+1. normalization이나 smoothing의 문제가 아닌, 애초에 데이터가 주기성이 없어서 샘플 별로 데이터를 regression 하는 방법의 방향이 틀림. 
+2. LSTM과 같은 RNN 계열의 모델들은 패턴을 학습하는 것으로, onestep이 아닌 multistep에서는 너무 동일한 결과를 출력하게 됨.
+3. 해당 문제를 특정 패턴을 학습하게 하기 위해서는, discretize시켜서 classification 문제로 접근하는 것도 하나의 방법(향후 시즌3에서 검토)
+4. regression 문제로 풀기 위해서는 일반적인 time-series forcasting 모델(ARIMA or Prophet)처럼 한 샘플 내 open data seriees를 가지고 onestep씩 학습 후 이를 target length(120min)만큼 loop하여 시도해야 함(향후 시즌3에서 검토)
+___
+
+##### 추가 진행 방향
 ![resnet_image](./images/residual.png)
 
 > 시계열 분석에서는 다음 값을 예측하는 대신 다음 타임스텝에서 값이 어떻게 달라지는 지를 예측하는 모델을 빌드하는 것이 일반적입니다. 마찬가지로 딥러닝에서 "잔여 네트워크(Residual networks)" 또는 "ResNets"는 각 레이어가 모델의 누적 결과에 추가되는 아키텍처를 나타냅니다. **이것은 변화가 작아야 한다는 사실을 이용하는 방법입니다.**
@@ -687,55 +807,73 @@ how to use?
 
 
 
-### 참고한 자료
+### Reference
 1. Time-Series Forecasting: NeuralProphet vs AutoML: https://towardsdatascience.com/time-series-forecasting-neuralprophet-vs-automl-fa4dfb2c3a9e
+<br>
 
 2. Techniques to Handle Very Long Sequences with LSTMs : https://machinelearningmastery.com/handle-long-sequences-long-short-term-memory-recurrent-neural-networks/
-> A reasonable limit of 250-500 time steps is often used in practice with large LSTM models.
+    > A reasonable limit of 250-500 time steps is often used in practice with large LSTM models.
+
 3. Neural prophet baseline : https://dacon.io/codeshare/2492
+<br>
 
 4. 예보 데이터 전처리와 선형보간 : https://dacon.io/competitions/official/235720/codeshare/2499?page=1&dtype=recent
-> 트렌드 추출해서 interpolation 처리 후 반영 방법
+    > 트렌드 추출해서 interpolation 처리 후 반영 방법
 
 5. ARIMA 원리 설명: https://youngjunyi.github.io/analytics/2020/02/27/forecasting-in-marketing-arima.html
+<br>
 
 6. facebook prophet : https://facebook.github.io/prophet/docs/quick_start.html#python-api
-> **prophet changepoint range의 의미** 
-100%으로 하면 오버피팅 되긴 할듯, By default changepoints are only inferred for the first 80% of the time series in order to have plenty of runway for projecting the trend forward and to avoid overfitting fluctuations at the end of the time series. This default works in many situations but not all, and can be changed using the changepoint_range argument.
+    > **prophet changepoint range의 의미** 
+    100%으로 하면 오버피팅 되긴 할듯, By default changepoints are only inferred for the first 80% of the time series in order to have plenty of runway for projecting the trend forward and to avoid overfitting fluctuations at the end of the time series. This default works in many situations but not all, and can be changed using the changepoint_range argument.
 
-> **prophet changepoint_prior_scale의 의미** 
-이상치반영정도? 같은 느낌, If the trend changes are being overfit (too much flexibility) or underfit (not enough flexibility), you can adjust the strength of the sparse prior using the input argument changepoint_prior_scale. By default, this parameter is set to 0.05
+    > **prophet changepoint_prior_scale의 의미** 
+    이상치반영정도? 같은 느낌, If the trend changes are being overfit (too much flexibility) or underfit (not enough flexibility), you can adjust the strength of the sparse prior using the input argument changepoint_prior_scale. By default, this parameter is set to 0.05
 
 7. Cryptocurrency price prediction using LSTMs | TensorFlow for Hackers (Part III) : https://towardsdatascience.com/cryptocurrency-price-prediction-using-lstms-tensorflow-for-hackers-part-iii-264fcdbccd3f
+<br>
 
 8. tensorflow time-series forecasting tutorial : https://www.tensorflow.org/tutorials/structured_data/time_series?hl=ko
+<br>
 
 9. 시계열 예측 패키지 Prophet 소개 : https://hyperconnect.github.io/2020/03/09/prophet-package.html
+<br>
 
 10. fourie order meaning in prophet : https://medium.com/analytics-vidhya/how-does-prophet-work-part-2-c47a6ceac511
-> m.add_seasonality(name='first_seasonality', period= 1/24 , fourier_order = 7) 1/24 가 1일을 24등분해서 1시간 마다의 시즈널을 입히는 것
- m.add_seasonality(name='second_seasonality', period=1/6, fourier_order = 15)  1/6 하면 1일을 6등분해서 4시간 마다의 시즈널을 입히는 것
+    > m.add_seasonality(name='first_seasonality', period= 1/24 , fourier_order = 7) 1/24 가 1일을 24등분해서 1시간 마다의 시즈널을 입히는 것
+    m.add_seasonality(name='second_seasonality', period=1/6, fourier_order = 15)  1/6 하면 1일을 6등분해서 4시간 마다의 시즈널을 입히는 것
 
 11. [ML with Python] 4.구간 분할/이산화 & 상호작용/다항식  - https://jhryu1208.github.io/data/2021/01/11/ML_segmentation/
+<br>
 
 12. A Simple LSTM-Based Time-Series Classifier : https://www.kaggle.com/purplejester/a-simple-lstm-based-time-series-classifier
+<br>
 
 13. PyTorch RNN 관련 티스토리 블로그 : https://seducinghyeok.tistory.com/8
+<br>
 
 14. [PyTorch] Deep Time Series Classification : https://www.kaggle.com/purplejester/pytorch-deep-time-series-classification/notebook
+<br>
 
 15. PyTorch로 시작하는 딥 러닝 입문 wicidocs : https://wikidocs.net/64703
+<br>
 
 16. scikit-learn kbins docs : https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.KBinsDiscretizer.html
+<br>
 
 17. Pytorch로 CNN 구현하기 티스토리 블로그 : https://justkode.kr/deep-learning/pytorch-cnn
+<br>
 
 18. CNN을 활용한 주가 방향 예측 : https://direction-f.tistory.com/19
+<br>
 
 19. Bitcoin Time Series Prediction with LSTM : https://www.kaggle.com/jphoon/bitcoin-time-series-prediction-with-lstm
+<br>
 
 20. 시즌 1, CNN 모델 팀 : https://dacon.io/competitions/official/235740/codeshare/2486?page=1&dtype=recent
+<br>
 
 21. A Gentle Introduction to Exponential Smoothing for Time Series Forecasting in Python : https://machinelearningmastery.com/exponential-smoothing-for-time-series-forecasting-in-python/
+<br>
 
 22. statsmodels docs : https://www.statsmodels.org/stable/examples/notebooks/generated/exponential_smoothing.html
