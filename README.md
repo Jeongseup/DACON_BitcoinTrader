@@ -13,7 +13,7 @@ ___
 * sample_id : 한 시퀀스 샘플, 한 시퀀스는 1380분의 시계열 데이터로 구성
  아래 예시
 <center>
-<img src="./images/train_x_df_eda.png">
+<img src="./images/train_x_df_eda.png" width=600 height=300></img><br>
 데이터 샘플 예시
 </center>
 
@@ -28,10 +28,11 @@ ___
 - 각 코인별로 샘플 개수는 다름
 - 9, 8번의 샘플 수가 가장 많음
 
-<center>
-<img src="./images/coin_index.png" width=500 height=300><br>
-코인 인덱스 별 데이터 샘플 개수
-</center>
+
+<p align='center'>
+<img src="./images/coin_index.png" width=500 height=300></img><br>코인 인덱스 별 데이터 샘플 개수
+</p>
+
 
 #### 모르는 데이터 피쳐 조사
 - 'Volume' - ' Taker buy base asset volume' = ' Maker buy base asset volume'
@@ -63,12 +64,12 @@ volume / quote_av
 - 샘플 내 outlier 너무 빈도가 적고, regression으로 학습하기 어려움(raw, smoothing, log smoothing 별 차이 없음)
 
 <center>
-<img src="./images/price_displot.png" width=500 height=300><br>
+<img src="./images/price_displot.png" width=500 height=300></img><br>
 open price distribution plot
 </center>
 
 <center>
-<img src="./images/price_boxplot.png" width=500 height=300><br>
+<img src="./images/price_boxplot.png" width=500 height=300></img><br>
 price box plot
 </center>
 
@@ -84,7 +85,7 @@ filtered_y_df = raw_y_df[~raw_y_df["sample_id"].isin(outlier_list)]
 ```
 
 <center>
-<img src="./images/outlier_image.png" width=500 height=300><br>
+<img src="./images/outlier_image.png" width=500 height=300></img><br>
 outlier range boxplot
 </center>
 
@@ -160,7 +161,7 @@ forecast_data = prophet.predict(future_data)
 
 ##### result plot
 <center>
-<img src="./images/season_1_pilot.png" width=600 height=300><br>
+<img src="./images/season_1_pilot.png" width=600 height=300></img><br>
 season 1 model pilot
 </center>
 
