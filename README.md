@@ -1,12 +1,13 @@
 ## 데이콘 비트코인 트레이더 시즌2 스터디
 ### index 
-1. chapter. 1 - EDA
-2. season 1 pilot
-3. data preprocess
-4. modeling adaption
-5. result & suggestion
+- Chapter. 1 - EDA
+- Chapter. 2 - Season 1 pilot
+- Chapter. 3 - Personal modeling prediction
+- Chapter. 4 - Data preprocess
+- Chapter. 5 - Results & Suggestion
+.. Reference
 ___
-### chapter.1 - EDA(Exploratory Data Analysis)
+### Chapter. 1 - EDA(Exploratory Data Analysis)
 #### train_x_df EDA 과정 설명
 * sample_id : 한 시퀀스 샘플, 한 시퀀스는 1380분의 시계열 데이터로 구성
  아래 예시
@@ -51,7 +52,7 @@ volume / quote_av
 9 = 0.00013(**minimum coin**)
 ====> **작을수록 비싼 코인으로 추정**
 
-#### open price outlier problem 
+#### Open price outlier problem 
 - 샘플 내 outlier 너무 빈도가 적고, regression으로 학습하기 어려움(raw, smoothing, log smoothing 별 차이 없음)
 ![resnet_image](./images/price_displot.png)
 <center><open price distribution plot></center>
@@ -75,7 +76,7 @@ filtered_y_df = raw_y_df[~raw_y_df["sample_id"].isin(outlier_list)]
 #### EDA code
 coin eda code link : <a href ='./coin_eda.ipynb'>"here"</a>
 
-#### data handling memo 
+#### Data handling memo 
 1. greedy feature add based on taker volumn data
 ```python
 ''' greedy feature handleing'''
@@ -110,17 +111,156 @@ print(
 )
 ```
 ___
+### Chapter. 2 - Season 1 model pilot
+- sample id = 0, open data series로만 모델링 진행
+#### ARIMA modeling
+- ARIMA arg meanings : https://otexts.com/fppkr/arima-forecasting.html
+```python
+# ARIMA model fitting : model arguments 는 임의로 진행
+model = ARIMA(x_series, order=(3,0,1))
+fit  = model.fit()
+pred_by_arima = fit.predict(1381, 1380+120, typ='levels')
+```
+#### Prophet modeling
+- Time Series Forecasting — ARIMA vs Prophet : https://medium.com/analytics-vidhya/time-series-forecasting-arima-vs-prophet-5015928e402a
+- facebook github : https://facebook.github.io/prophet/docs/quick_start.html
+- prophet 설명 블로그 : https://zzsza.github.io/data/2019/02/06/prophet/
 
-### chapter.2 - Season 1 model pilot
-### ARIMA
-<a href ='./season1_pilot.ipynb'>시즌 1 파일럿 모델링</a>
+```python
+# pprophet 모델 학습 
+prophet = Prophet(seasonality_mode='multiplicative', 
+                  yearly_seasonality=False,
+                  weekly_seasonality=False, daily_seasonality=True,
+                  changepoint_prior_scale=0.06)
+prophet.fit(x_df)
 
-### chapter.3 - Data preprocess
+future_data = prophet.make_future_dataframe(periods=120, freq='min')
+forecast_data = prophet.predict(future_data)
+
+```
+#### result plot
+![season_1_pilot_image](./images/season_1_pilot.png)
+{: width="50" height="50"}
+
+#### season 1 pilot code
+season 1 pilot code link : <a href ='./season1_pilot.ipynb'>"here"</a>
+
+___
+
+### Chapter. 3 - Personal modeling prediction
+- 기존의 driving 방식처럼 trian_x에서 open column만 활용하여 yhat predict함.
+
+#### ARIMA trial
+- 우선 기존 ARIMA 방법을 Baseline으로 잡고, 진행
+- hyperparameter p,d,q는 임의로 잡음
+```python
+def train(x_series, y_series, args):
+    
+    model = ARIMA(x_series, order=(2,0,2))
+    fit  = model.fit()
+    
+    y_pred = fit.predict(1381, 1380+120, typ='levels')
+    error = mean_squared_error(y_series, y_pred)
+    plotting(y_series, y_pred, args.sample_id)
+
+    return error*10E5
+```
+![colab_arima_prediction_image](./images/colab_arima_prediction.png)
+
+Colab link : https://colab.research.google.com/drive/1x28Mi9MSqqkSTO2a8UU0wXDzgXNy2WT9?usp=sharing
+
+
+#### Prophet trial
+- hyperparameter는 임의로 설정, seasonality는 코인 데이터가 addtitive 보다는 multiplicative가 적합하다고 판단
+```python
+prophet= Prophet(seasonality_mode='multiplicative',
+                  yearly_seasonality='auto',
+                  weekly_seasonality='auto', daily_seasonality='auto',
+                  changepoint_range=0.9,  
+                  changepoint_prior_scale=0.1  # 오버피팅, 언더피팅을 피하기 위해 조정
+                )
+
+prophet.add_seasonality(name='first_seasonality', period=1/12, fourier_order=7) # seasonality 추가
+prophet.add_seasonality(name='second_seasonality', period=1/8, fourier_order=15) # seasonality 추가
+
+prophet.fit(x_df)
+
+future_data = prophet.make_future_dataframe(periods=120, freq='min')
+forecast_data = prophet.predict(future_data)
+```
+- sample_id = 1, dataset 예측 결과
+![colab_prophet_prediction_image](./images/colab_prophet_prediction.png)
+<center><open price prophet prediction plot></center>
+Colab link : https://colab.research.google.com/drive/1dDf6AIln31catWWDsrB_lbL-0M5DsZTd?usp=sharing
+
+
+
+#### Neural Prophet trial
+- hyperparameter 임의로 잡음, seasonality mode는 이전 prophet model처럼 mulplicative로 진행
+```python
+def prophet_preprocessor(x_series):
+    
+    # start time initialization
+    start_time = '2021-01-01 00:00:00'
+    start_dt = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+
+    # datafram 만들기
+    x_df = pd.DataFrame()
+    # 분당 시간 데이터 시리즈 입력
+    x_df['ds'] = [start_dt + datetime.timedelta(minutes = time_min) for time_min in np.arange(1, x_series.shape[0]+1).tolist()]
+    # 가격 데이터 시리즈 입력
+    x_df['y'] = x_series.tolist()
+
+    return x_df
+
+
+def train(x_series, y_series, **paras):
+    
+    x_df = prophet_preprocessor(x_series)
+    
+    model = NeuralProphet(
+                          n_changepoints = paras['n_changepoints'],
+                          changepoints_range = paras['changepoints_range'],
+                          num_hidden_layers = paras['num_hidden_layers'],
+            
+                          learning_rate = 0.1, epochs = 40, batch_size = 32,
+                          seasonality_mode = 'multiplicative', 
+                          yearly_seasonality = False, weekly_seasonality = False, daily_seasonality = False,
+                          normalize='minmax'
+                         )
+    
+    model.add_seasonality(name='first_seasonality', period=1/24, fourier_order=5) 
+    model.add_seasonality(name='second_seasonality', period=1/12, fourier_order=10)
+
+    metrics = model.fit(x_df, freq="min")
+
+    future = model.make_future_dataframe(x_df, periods=120)
+    forecast = model.predict(future)
+    error = mean_squared_error(y_series, forecast.yhat1.values[-120:])
+
+    return error
+
+```
+Colab link : https://colab.research.google.com/drive/1E38kkH2mfFgnGKj89t2mLZV6xg7rPQl8?usp=sharing
+
+#### Keras RNN models trail
+- 음.. 비슷한 방식으로 open 가격 데이터만이 아닌, feature까지 활용해서 driving해보고 싶었음
+
+### chapter.4 - Data preprocess
+#### Data smoothing
+- 이후, DNN 계열의 모델링을 시도했으나, 제대로 regression이 되지 않음. -> 기존 데이터는 너무 진폭이 심해서 모델이 regression을 하기 어렵다고 판단함.
+
+- smoothing method 1 : simple exponential smoothing
+- smoothing method 2 : moving average
+
 - price data smoothing
-![resnet_image](./images/smoothing.png)
+![smoothing_image](./images/smoothing.png)
 
 
-- 데이터 계층화(KBinsdiscretizer)
+#### Data discretize
+- 데이터를 계층화하는 게 어떨까? 싶었음..
+
+- discretize method : KBinsdiscretizer library(in scikit-learn)
 ```python
 from sklearn.preprocessing import KBinsDiscretizer
 kb = KBinsDiscretizer(n_bins=10, strategy='uniform', encode='ordinal')
@@ -133,22 +273,13 @@ print("bin edges :\n", kb.bin_edges_ )
 <center><kbinsdiscretizer before & after plot></center>
 
 
-- 시계열 데이터 정규화
+#### Data log normalization
+-시계열 데이터 정규화
+
 ``` python
 data = data.apply(lambda x: np.log(x+1) - np.log(x[self.x_frames-1]+1))
 ```
-
-### Prophet
-기존의 driving 방식은 trian_x에서 open column만 가지고 
-ARIMA나 Prophet으로 연산시켜서.
-y값을 추정함.
-
-
-음.. 비슷한 방식으로 open 가격 데이터만을 가지고
-Tree 모델이나
-DNN 이나 
-RNN 등을 해볼 수 있을 텐데..
-60분의 데이터를 보고 
+- 시계열 데이터 정규화 방법 출처 : https://github.com/heartcored98/Standalone-DeepLearning/blob/master/Lec8/Lab10_Stock_Price_Prediction_with_LSTM.ipynb(2019 KAIST 딥러닝 홀로서기 )
 
 
 ### chapter.3 - RNN modeling
