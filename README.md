@@ -2,20 +2,21 @@
 ### index 
 - Chapter. 1 - EDA
 - Chapter. 2 - Season 1 pilot
-- Chapter. 3 - Personal modeling prediction 1
+- Chapter. 3 - Personal modeling prediction
 - Chapter. 4 - Data preprocess
-- Chapter. 5 - Personal modeling prediction 2
-- Chapter. 6 - Results & Suggestion
-.. Reference
+- Chapter. 5 - Pytorch modeling prediction
+- Chapter. 6 - Experiments & Simulation
+- Reference
 ___
 ### Chapter. 1 - EDA(Exploratory Data Analysis)
 #### train_x_df EDA 과정 설명
 * sample_id : 한 시퀀스 샘플, 한 시퀀스는 1380분의 시계열 데이터로 구성
  아래 예시
-<center>
+
+<p align='center'>
 <img src="./images/train_x_df_eda.png" width=600 height=300></img><br>
 데이터 샘플 예시
-</center>
+</p>
 
 #### In one sample, dataset description
 - X : 1380분(23시간)의 연속 데이터
@@ -39,39 +40,38 @@ ___
 > source by : https://www.binance.kr/apidocs/#individual-symbol-mini-ticker-stream
 - quote asset volume = coin volume / btc volume
 > quote asset volume = Volume expressed in quote asset units. For pair DOGE/ BTC the volume is shown in BTC , instead of DOGE.
->>  예시--> 가상화폐/거래화폐에서 거래화폐의 양
-한국돈으로 돌고돌아 계산한다고 쳐 (100만)
-ex) btc/usdt 면 usdt의 가치 57000*1200
-에서의 qav = 100만/1200 =>8만xxx
-btc/krw면 btc의 가치 7400만  100만
-에서의 qav = 100만
-tb_base_av
-coin / xxxxx
-volume / quote_av
-0 =19.xxxxx
-1 = 0.028xxxxx
-2 = 0.268xxxxx
-3 = 0.238 xxxxx
-4 = 2.1312xxxx
-5 = 52.1123xxxx(**maximum coin**)
-6= 0.22421
-7= 19.3821
-8 = 0.003426
-9 = 0.00013(**minimum coin**)
-====> **작을수록 비싼 코인으로 추정**
+
+> 예시) 가상화폐/거래화폐에서 거래화폐의 양
+> 한국돈으로 돌고돌아 계산(100만)
+> ex) btc/usdt 면 usdt의 가치 57000*1200에서의 qav = 100만/1200 => 8만xxx
+> btc/krw면 btc의 가치 7400만에서의 qav = 100만
+> tb_base_av
+> coin / xxxxx
+> volume / quote_av
+> 0 = 19.xxxxx
+> 1 = 0.028xxxxx
+> 2 = 0.268xxxxx
+> 3 = 0.238 xxxxx
+> 4 = 2.1312xxxx
+> 5 = 52.1123xxxx(**maximum coin**)
+> 6= 0.22421
+> 7= 19.3821
+> 8 = 0.003426
+> 9 = 0.00013(**minimum coin**)
+> ====> **작을수록 비싼 코인으로 추정**
 
 #### Open price outlier problem 
 - 샘플 내 outlier 너무 빈도가 적고, regression으로 학습하기 어려움(raw, smoothing, log smoothing 별 차이 없음)
 
-<center>
+<p align='center'>
 <img src="./images/price_displot.png" width=500 height=300></img><br>
 open price distribution plot
-</center>
+</p>
 
-<center>
+<p align='center'>
 <img src="./images/price_boxplot.png" width=500 height=300></img><br>
 price box plot
-</center>
+</p>
 
 - open price outlier detection tempary method code
 ```python
@@ -84,14 +84,14 @@ for temp_arr in outlier_arr:
 filtered_y_df = raw_y_df[~raw_y_df["sample_id"].isin(outlier_list)]
 ```
 
-<center>
+<p align='center'>
 <img src="./images/outlier_image.png" width=500 height=300></img><br>
 outlier range boxplot
-</center>
+</p>
 
 
 #### EDA code
-coin eda code link : <a href ='./coin_eda.ipynb'>"here"</a>
+coin eda code link : <a href ='./Coin_EDA.ipynb'>"here"</a>
 <br>
 
 #### Data handling memo 
@@ -160,10 +160,10 @@ forecast_data = prophet.predict(future_data)
 ```
 
 ##### result plot
-<center>
+<p align='center'>
 <img src="./images/season_1_pilot.png" width=600 height=300></img><br>
 season 1 model pilot
-</center>
+</p>
 
 ##### season 1 pilot code
 season 1 pilot code link : <a href ='./season1_pilot.ipynb'>"here"</a>
@@ -191,10 +191,10 @@ def train(x_series, y_series, args):
     return error*10E5
 ```
 ##### result
-<center>
+<p align='center'>
 <img src="./images/colab_arima_prediction.png" width=300 height=200><br>
 open price ARIMA prediction plot
-</center>
+</p>
 
 Colab link : https://colab.research.google.com/drive/1x28Mi9MSqqkSTO2a8UU0wXDzgXNy2WT9?usp=sharing<br>
 
@@ -221,10 +221,10 @@ future_data = prophet.make_future_dataframe(periods=120, freq='min')
 forecast_data = prophet.predict(future_data)
 ```
 ##### sample_id = 1, dataset 예측 결과
-<center>
+<p align='center'>
 <img src="./images/colab_prophet_prediction.png" width=300 height=200><br>
 open price prophet prediction plot
-</center>
+</p>
 <br>
 Colab link : https://colab.research.google.com/drive/1dDf6AIln31catWWDsrB_lbL-0M5DsZTd?usp=sharing<br>
 
@@ -388,10 +388,10 @@ def train(x_train, y_train, n_epoch, n_batch, x_val, y_val):
     return model
 ```
 ##### result
-<center>
+<p align='center'>
 <img src="./images/keras_LSTM.png" width=500 height=300><br>
 Keras LSTM predition plot
-</center>
+</p>
 <br>
 
 Colab link : https://colab.research.google.com/drive/1oCCXpJSlLXDs6x968eYrIPQtzEo0klMq?usp=sharing<br>
@@ -411,10 +411,10 @@ model.compile(optimizer='adam', loss='mse')
 model.summary()
 ```
 ##### result
-<center>
+<p align='center'>
 <img src="./images/keras_GRU.png" width=500 height=300><br>
 Keras GRU predition plot
-</center><br>
+</p><br>
 
 Colab link : https://colab.research.google.com/drive/1w2GZXVXSjRX-tlI49WAcC77szQaK_H6R?usp=sharing<br>
 ___
@@ -461,10 +461,10 @@ def moving_average(arr, window_size = 10):
     return ma[:, :, 1] # open col is 1
 ```
 ##### smoothing result
-<center>
+<p align='center'>
 <img src='./images/smoothing.png'>
 price data smoothing plot
-</center>
+</p>
 
 #### Data discretize
 - y값 open 데이터가 진폭이 너무 큰 outlier 데이터가 너무 많아서, true y을 prediction 하는 것보다 y 값의 패턴 양상만을 학습하는 방법으로 바꿔 driving
@@ -479,11 +479,11 @@ kb.fit(open_y_series)
 #  이때 `bin_edges_` 메소드를 이용하여 저장되어진 경계값을 확인할 수 있다.
 print("bin edges :\n", kb.bin_edges_ )
 ```
-##### discretize result
-<center>
+##### Discretize result
+<p align='center'>
 <img src="./images/kbinsdiscretize_plot.png" width=500 height=300><br>
 kbinsdiscretizer before & after plot
-</center>
+</p>
 
 
 #### Data log normalization
@@ -546,18 +546,18 @@ class LSTM(nn.Module):
 ```
 - 모델 학습 방법 시각화
 
-<center>
+<p align='center'>
 <img src="./images/multistep_lstm.png"><br>
 Multistep LSTM modeling(source by : tensorflow tutorial)
-</center><br>
+</p><br>
 
 ##### result
  modeling 내 한번에 120개의 y값을 출력시, 다음 그림처럼 패턴에 상관없이 같은 y값을 출력하게 됨. -> 실패
 
-<center>
+<p align='center'>
 <img src="./images/pytorch_LSTM_coin9.png"><br>
 coin9 LSTM prediction
-</center><br>
+</p><br>
 
 Colab link : https://colab.research.google.com/drive/1I0Arck8qkV4FTXnOOYMxkpZGIRKCGj7J?usp=sharing
 
@@ -646,10 +646,10 @@ Colab link : https://colab.research.google.com/drive/11s1KCtT8NPvsaOR-1mYaR66lne
 이전 모델 구조는 그대로 진행하였고, 데이터 세트만 기존에 9번 코인 데이터에서 코인에 상관없이 모든 데이터 세트를 적용함. -> 어차피 코인별 각기 다른 데이터 패턴 양상이 아닌, 코인과 무관하게 가격 데이터의 움직임은 그냥 일정 패턴 별로 나뉠 것으로 예상 -> 제대로 된 학습조차 안 되며, 코인 가격 자체가 seasonal아 아예 없어서 LSTM regression이 무의미한 것으로 판정
 
 
-<center>
+<p align='center'>
 <img src="./images/pytorch_LSTM_allcoin.png"><br>
 LSTM prediction with all coin data
-</center><br>
+</p><br>
 
 Colab link : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing<br>
 
@@ -681,10 +681,10 @@ def outlier_detecter(raw_y_arr, outlier_criteria = 0.03):
     return outlier_list, np.array(openrange_list)
 ```
 
-<center>
+<p align='center'>
 <img src="./images/pytorch_LSTM_outlier_remove.png"><br>
 outlier remove & LSTM prediction
-</center><br>
+</p><br>
 
 
 ##### All coin, kbinsdiscretize & LSTM
@@ -763,10 +763,10 @@ class CNN_LSTM(nn.Module):
 
 ```
 
-<center>
+<p align='center'>
 <img src="./images/pytorch_Conv1dLSTM_allcoin.png">
 Conv1d-LSTM prediction
-</center><br>
+</p><br>
 
 #### RNN 모델링 결론
 1. normalization이나 smoothing의 문제가 아닌, 애초에 데이터가 주기성이 없어서 샘플 별로 데이터를 regression 하는 방법의 방향이 틀림. 
@@ -775,37 +775,67 @@ Conv1d-LSTM prediction
 4. regression 문제로 풀기 위해서는 일반적인 time-series forcasting 모델(ARIMA or Prophet)처럼 한 샘플 내 open data seriees를 가지고 onestep씩 학습 후 이를 target length(120min)만큼 loop하여 시도해야 함(향후 시즌3에서 검토)
 ___
 
-##### 추가 진행 방향
-![resnet_image](./images/residual.png)
+### Chapter. 6 - Experiments & Simulation
+#### Experiment list
+- ARIMA Experiment code : <a herf='./ARIMA_Experiment.ipynb'>"here"</a>
+<br>
 
+- Neural Prophet codes
+    1. Basic : <a herf='./Neural_Prophet_Basic.ipynb.ipynb'>"here"</a>
+    2. Grid search : <a herf='./Neural_Prophet_Grid_search.ipynb.ipynb.ipynb'>"here"</a>
+    3. Best parameter : <a herf='./Neural_Prophet_Best-parameters.ipynb.ipynb.ipynb'>"here"</a>
+    4. Experiment : <a herf='./Neural_Prophet_Experiment.ipynb'>"here"</a>
+<br>
+
+-  Pytorch Study
+    1. LSTM & Kbins regressor : <a herf='./Pytorch_LSTM_Kbins.ipynb'>"here"</a>
+    2. LSTM & log norm regressor : <a herf='./Pytorch_LSTM_Log-y-series.ipynb'>"here"</a>
+    3. Seq2Seq regressor : <a herf='./Pytorch_Seq2Seq_One-feature.ipynb'>"here"</a>
+    4. Conv1d-LSTM classifier : <a herf='./Pytorch_Conv1d_Classification.ipynb'>"here"</a>
+<br>
+
+- Pytorch Colabs
+    1. LSTM & smoothing : https://colab.research.google.com/drive/1uXBoRAMEza3Q0MRIrY33FKDJmN3lSKsi?usp=sharing
+    2. Conv1d-LSTM : https://colab.research.google.com/drive/1UfPfdf6WSuYl4JYR2lMgdqRq7rAW8qIz
+    2. LSTM & outlier remover : https://colab.research.google.com/drive/1lnj7t92-yEGE-U4NngMSIyu72pgvSQ34?usp=sharing
+    3. LSTM & log normal : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing
+
+#### Simulation program
+Coin investing simulator code : <a herf='./simulator.py'>"here"</a>
+___
+#### 이후 시즌 3 진행 방향
+
+##### modeling - Data dicretize & classification driving
+- 해당 문제를 최고점 패턴 분류 모델로 변형하여 학습
+- y값 구간 내 open price 최고점을 labling
+- 모델은 1380분 간의 input 패턴에 따라, 최고점인 lable을 분류
+- Pytorch Conv1d + bidirectional LSTM
+<br>
+
+##### modeling - Open data series regression by one sample
+- 일반적인 time-series forcasting 모델(ARIMA or Prophet)처럼 한 샘플 내 open data seriees를 가지고 onestep씩 학습 후 이를 target length(120min)만큼 looping
+- smoothing 및 fractional differecing, log normalization 적용
+- moving average 재적용
+- 특정 분류 불가할 것 같은 outlier data sample remove
+- Pytorch Conv1d + bidirectional LSTM
+<br>
+
+##### 메모
+- Residual modeling
 > 시계열 분석에서는 다음 값을 예측하는 대신 다음 타임스텝에서 값이 어떻게 달라지는 지를 예측하는 모델을 빌드하는 것이 일반적입니다. 마찬가지로 딥러닝에서 "잔여 네트워크(Residual networks)" 또는 "ResNets"는 각 레이어가 모델의 누적 결과에 추가되는 아키텍처를 나타냅니다. **이것은 변화가 작아야 한다는 사실을 이용하는 방법입니다.**
+<br>
 
-* 결과 : 한 샘플만 가지고 적용할 때에는 크게 효과 있어보이지는 않음. 한 코인당 하나의 모델을 만드는 방식으로 샘플을 train, validation, test 구간으로 나누어 다시 재적용해 볼 필요가 있음.
+- Gloden cross strategy
+> 예측된 구간 내 골든크로스가 발생한다고 예측이 되면 1381때 1로 구매 아니면 0 으로 패스 
+> 그리고 구매이후 데드크로스가 발생 시 전부 판매하면 안정적인 전략 가능 -> 가능할 지는 의문
 
-매수 매도 골든크로스 전략은 가능한건가?
-크로스의 주기가 너무 잦으면별로임.. 횟수가 적게 조정해야 함
-예측된 구간 내 골든크로스가 발생한다고 예측이 되면 1381때 1로 구매 아니면 0 으로 패스
-그리고 구매이후 데드크로스가 발생시 전부 판매하면 안정적인 전략, 차라리 데드크로스 발생 조금전에 해버리면 더 높은 가격에 팔수도 있을 거란 것으로 유추됨
+- Simply Classification
+> 최고점 y 값 lable을 120이 아닌, 해당 time-length를 압축 또한, 분류 문제로 풀 경우 무조건 사지 말고 맞출 확률에 cap을 씌워서 가능성 높은 거만 사는 방법으로 확인
 
-120 중 하나를 30% 확률로 맞추는 모델링
-최종적으로 확인할 것
-분류 문제로 풀 경우 무조건 사지 말고 맞출확률에 cap을 씌워서 가능성 높은 거만 사는 방법으로 확인할 것
-moving average 줘서 문제 다시 풀어볼 것
-
-regression 가능해지는 지 확인
-
-Conv1d(output dim 수(채널수), kenel_size ) 임
-
-처음에 64개의 output channel로 10개씩 찍었으니까
-
-1380 - 10 + 1 = 이 압축된 sequece 수
-10 씩 하면 결국 10분 데이터 하나의 데이터로 압축시키는 걸 의미
-
-how to use?
-- 1d CNN은 더 큰 filter size를 써도 된다.
-- 1d CNN은 더 큰 window size를 써도 된다.
-- filter size로 일반적으로 7 or 9가 선택된다.
-
+- Conv1d
+> 1d CNN은 더 큰 filter size를 써도 된다.
+> 1d CNN은 더 큰 window size를 써도 된다.
+> filter size로 일반적으로 7 or 9가 선택된다.
 
 
 ### Reference
