@@ -2,16 +2,17 @@
 ### index 
 - Chapter. 1 - EDA
 - Chapter. 2 - Season 1 pilot
-- Chapter. 3 - Personal modeling prediction
+- Chapter. 3 - Personal modeling prediction 1
 - Chapter. 4 - Data preprocess
-- Chapter. 5 - Results & Suggestion
+- Chapter. 5 - Personal modeling prediction 2
+- Chapter. 6 - Results & Suggestion
 .. Reference
 ___
 ### Chapter. 1 - EDA(Exploratory Data Analysis)
 #### train_x_df EDA 과정 설명
 * sample_id : 한 시퀀스 샘플, 한 시퀀스는 1380분의 시계열 데이터로 구성
  아래 예시
-![resnet_image](./images/train_x_df_eda.png)
+![train_x_df_eda_image](./images/train_x_df_eda.png)
 
 #### In one sample, dataset description
 - X : 1380분(23시간)의 연속 데이터
@@ -23,7 +24,7 @@ ___
 #### 코인별 샘플 개수
 - 각 코인별로 샘플 개수는 다름
 - 9, 8번의 샘플 수가 가장 많음
-![resnet_image](./images/coin_index.png)
+![coin_index_image](./images/coin_index.png)
 
 
 #### 모르는 데이터 피쳐 조사
@@ -54,13 +55,13 @@ volume / quote_av
 
 #### Open price outlier problem 
 - 샘플 내 outlier 너무 빈도가 적고, regression으로 학습하기 어려움(raw, smoothing, log smoothing 별 차이 없음)
-![resnet_image](./images/price_displot.png)
+![price_displot_image](./images/price_displot.png)
 <center><open price distribution plot></center>
 
-![resnet_image](./images/price_boxplot.png)
+![price_boxplot_image](./images/price_boxplot.png)
 <center><open price box plot></center>
 
-- open price outlier detection tempary method
+- open price outlier detection tempary method code
 ```python
 for temp_arr in outlier_arr:
     plt.plot(temp_arr, label = 'True series')
@@ -70,11 +71,12 @@ for temp_arr in outlier_arr:
 
 filtered_y_df = raw_y_df[~raw_y_df["sample_id"].isin(outlier_list)]
 ```
-![resnet_image](./images/outlier_image.png)
+![outlier_image](./images/outlier_image.png)
 <center><outlier range boxplot></center>
 
 #### EDA code
 coin eda code link : <a href ='./coin_eda.ipynb'>"here"</a>
+<br>
 
 #### Data handling memo 
 1. greedy feature add based on taker volumn data
@@ -115,6 +117,7 @@ ___
 - sample id = 0, open data series로만 모델링 진행
 #### ARIMA modeling
 - ARIMA arg meanings : https://otexts.com/fppkr/arima-forecasting.html
+- ARIMA python code
 ```python
 # ARIMA model fitting : model arguments 는 임의로 진행
 model = ARIMA(x_series, order=(3,0,1))
@@ -126,6 +129,7 @@ pred_by_arima = fit.predict(1381, 1380+120, typ='levels')
 - facebook github : https://facebook.github.io/prophet/docs/quick_start.html
 - prophet 설명 블로그 : https://zzsza.github.io/data/2019/02/06/prophet/
 
+- prophet python code
 ```python
 # pprophet 모델 학습 
 prophet = Prophet(seasonality_mode='multiplicative', 
@@ -140,19 +144,21 @@ forecast_data = prophet.predict(future_data)
 ```
 #### result plot
 ![season_1_pilot_image](./images/season_1_pilot.png)
-{: width="50" height="50"}
+<center><season 1 model pilot></center>
 
 #### season 1 pilot code
 season 1 pilot code link : <a href ='./season1_pilot.ipynb'>"here"</a>
 
 ___
-
 ### Chapter. 3 - Personal modeling prediction
 - 기존의 driving 방식처럼 trian_x에서 open column만 활용하여 yhat predict함.
 
 #### ARIMA trial
 - 우선 기존 ARIMA 방법을 Baseline으로 잡고, 진행
 - hyperparameter p,d,q는 임의로 잡음
+<br>
+
+- ARIMA python code
 ```python
 def train(x_series, y_series, args):
     
@@ -166,12 +172,16 @@ def train(x_series, y_series, args):
     return error*10E5
 ```
 ![colab_arima_prediction_image](./images/colab_arima_prediction.png)
+<center><open price ARIMA prediction plot></center>
 
-Colab link : https://colab.research.google.com/drive/1x28Mi9MSqqkSTO2a8UU0wXDzgXNy2WT9?usp=sharing
+Colab link : https://colab.research.google.com/drive/1x28Mi9MSqqkSTO2a8UU0wXDzgXNy2WT9?usp=sharing<br>
 
 
 #### Prophet trial
 - hyperparameter는 임의로 설정, seasonality는 코인 데이터가 addtitive 보다는 multiplicative가 적합하다고 판단
+<br>
+
+- prophet python code
 ```python
 prophet= Prophet(seasonality_mode='multiplicative',
                   yearly_seasonality='auto',
@@ -191,12 +201,15 @@ forecast_data = prophet.predict(future_data)
 - sample_id = 1, dataset 예측 결과
 ![colab_prophet_prediction_image](./images/colab_prophet_prediction.png)
 <center><open price prophet prediction plot></center>
-Colab link : https://colab.research.google.com/drive/1dDf6AIln31catWWDsrB_lbL-0M5DsZTd?usp=sharing
+Colab link : https://colab.research.google.com/drive/1dDf6AIln31catWWDsrB_lbL-0M5DsZTd?usp=sharing<br>
 
 
 
 #### Neural Prophet trial
 - hyperparameter 임의로 잡음, seasonality mode는 이전 prophet model처럼 mulplicative로 진행
+<br>
+
+- neural prophet python code
 ```python
 def prophet_preprocessor(x_series):
     
@@ -243,24 +256,190 @@ def train(x_series, y_series, **paras):
 ```
 Colab link : https://colab.research.google.com/drive/1E38kkH2mfFgnGKj89t2mLZV6xg7rPQl8?usp=sharing
 
-#### Keras RNN models trail
-- 음.. 비슷한 방식으로 open 가격 데이터만이 아닌, feature까지 활용해서 driving해보고 싶었음
+#### Fractional differencing ARIMA trial
+- 일반적으로, 차분을 해버리면 시즈널이 생기지만 그 만큼 기존 데이터가 변형되어 정보 손실이 생김. 이를 커버하기 위해, 실수 차분의 개념이 도입
 
-### chapter.4 - Data preprocess
+- 실수 차원의 차분 시계열 : https://m.blog.naver.com/chunjein/222072460703
+<br>
+
+- fractional differecing ARIMA code
+```python
+#차분용 함수
+def getWeights_FFD(d, size, thres):
+    w = [1.]  # w의 초깃값 = 1
+
+    for k in range(1, size):
+
+        w_ = -w[-1] * (d - k + 1) / k  # 식 2)를 사용했다.
+
+        if abs(w[-1]) >= thres and abs(w_) <= thres:
+            break
+        else:
+            w.append(w_)
+
+    # w의 inverse
+    w = np.array(w[::-1]).reshape(-1, 1)
+    return w
+
+
+def fracDiff_FFD(series, d, thres=0.002):
+    '''
+    Constant width window (new solution)
+
+    Note 1: thres determines the cut-off weight for the window
+    Note 2: d can be any positive fractional, not necessarily bounded [0,1]
+    '''
+
+    # 1) Compute weights for the longest series
+    w = getWeights_FFD(d, series.shape[0], thres)
+
+    width = len(w) - 1
+
+    # 2) Apply weights to values
+    df = []
+    seriesF = series
+
+    for iloc in range(len(w), seriesF.shape[0]):
+        k = np.dot(w.T[::-1], seriesF[iloc - len(w):iloc])
+        df.append(k)
+
+    df = np.array(df)
+    return df, w
+
+# 실수 차분 예시
+x_series = train_x_array[idx,:,data_col_idx]
+
+# fractional differecing 
+fdiff, fdiff_weight = fracDiff_FFD(x_series, d=0.2, thres=0.002)
+differencing_x_series = fdiff.reshape(fdiff.shape[0],)
+
+# ARIMA modeling
+model = ARIMA(differencing_x_series, order =(2,0,2))
+fitted_model = model.fit()
+pred_y_series = fitted_model.predict(1,120, type='levels')
+
+# scale control : 실수 차분을 하면 시계열성 및 정보는 어느 정도 보존되지만, 데이터 스케일이 달라짐. 1380분의 데이터가 1이 되도록 맞춰줌.
+first_value = pred_y_series[0]
+scale_controler = 1 / first_value
+scaled_pred_y_series = scale_controler * pred_y_series
+```
+Colab link : https://colab.research.google.com/drive/19hrQP6nI-KgVwWu9Udp2fbntYCjpnHG9?usp=sharing
+
+#### Keras RNN models trial
+- 비슷한 방식으로 open 가격 데이터만이 아닌, feature까지 활용해서 driving
+- keras moduler LSTM 이랑 GRU 시도
+
+##### keras LSTM code
+```python
+#모델학습
+class CustomHistory(keras.callbacks.Callback):
+    def init(self):
+        self.train_loss = []
+        self.val_loss = []
+        
+    def on_epoch_end(self, batch, logs={}):
+        self.train_loss.append(logs.get('loss'))
+        self.val_loss.append(logs.get('val_loss'))
+
+
+def train(x_train, y_train, n_epoch, n_batch, x_val, y_val):
+
+    #모델
+    model = Sequential()
+    model.add(LSTM(128, return_sequences=True, input_shape= (x_train.shape[1],x_train.shape[2] )))
+    model.add(LSTM(64, return_sequences=False))
+    model.add(Dense(25, activation='relu'))
+    model.add(Dense(1))
+
+    # 모델 학습과정 설정하기
+    model.compile(loss='mean_squared_error', optimizer='adam')
+
+    # 모델 학습시키기
+    custom_hist = CustomHistory()
+    custom_hist.init()
+
+    #모델 돌려보기
+    model.fit(x_train, y_train, epochs=n_epoch, batch_size=n_batch, shuffle=True, callbacks=[custom_hist], validation_data=(x_val, y_val), verbose=1)
+
+    return model
+```
+![keras_LSTM_image](./images/keras_LSTM.png)
+<center><Keras LSTM predition plot></center>
+
+Colab link : https://colab.research.google.com/drive/1oCCXpJSlLXDs6x968eYrIPQtzEo0klMq?usp=sharing<br>
+
+##### keras GRU code
+```python
+# GRU로도 시도 해봄.
+model = keras.models.Sequential(
+    [
+     keras.layers.Bidirectional(layers.GRU(units = 50, return_sequences =True), input_shape=(x_frames, 1)), 
+     keras.layers.GRU(units = 50),
+     keras.layers.Dense(1)
+    ]
+)
+
+model.compile(optimizer='adam', loss='mse')
+model.summary()
+```
+![keras_GRU_image](./images/keras_GRU.png)
+<center><Keras GRU predition plot></center>
+
+Colab link : https://colab.research.google.com/drive/1w2GZXVXSjRX-tlI49WAcC77szQaK_H6R?usp=sharing<br>
+___
+### Chapter. 4 - Data preprocess
 #### Data smoothing
-- 이후, DNN 계열의 모델링을 시도했으나, 제대로 regression이 되지 않음. -> 기존 데이터는 너무 진폭이 심해서 모델이 regression을 하기 어렵다고 판단함.
+- 이후, DNN 계열의 모델링을 시도했으나, 제대로 regression이 되지 않음. -> 기존 데이터는 너무 진폭이 심해서 모델이 regression을 하기 어렵다고 판단함
 
 - smoothing method 1 : simple exponential smoothing
+> Exponential smoothing is a time series forecasting method for univariate data that can be extended to support data with a systematic trend or seasonal component.
+It is a powerful forecasting method that may be used as an alternative to the popular Box-Jenkins ARIMA family of methods.
+
 - smoothing method 2 : moving average
+> Smoothing is a technique applied to time series to remove the fine-grained variation between time steps.
+The hope of smoothing is to remove noise and better expose the signal of the underlying causal processes. Moving averages are a simple and common type of smoothing used in time series analysis and time series forecasting.
 
-- price data smoothing
+- smoothing python code
+```python
+def simple_exponetial_smoothing(arr, alpha=0.3):
+    
+    y_series = list()
+    
+    for temp_arr in arr:
+        target_series = temp_arr[:, 1].reshape(-1) # open col is 1 index
+
+        smoother = SimpleExpSmoothing(target_series, initialization_method="heuristic").fit(smoothing_level=0.3,optimized=False)
+        smoothing_series = smoother.fittedvalues
+        
+        y_series.append(smoothing_series)
+    
+    return np.array(y_series)
+
+
+def moving_average(arr, window_size = 10):
+    
+    #length = ma 몇 할지
+    length = window_size
+    ma = np.zeros((arr.shape[0], arr.shape[1] - length, arr.shape[2]))
+
+    for idx in range(arr.shape[0]):
+        for i in range(length, arr.shape[1]):
+            for col in range(arr.shape[2]):
+                ma[idx, i-length, col] = arr[idx,i-length:i, col].mean() #open
+            
+    return ma[:, :, 1] # open col is 1
+```
+
 ![smoothing_image](./images/smoothing.png)
-
+<center> price data smoothing plot
+</center>
 
 #### Data discretize
-- 데이터를 계층화하는 게 어떨까? 싶었음..
-
+- y값 open 데이터가 진폭이 너무 큰 outlier 데이터가 너무 많아서, true y을 prediction 하는 것보다 y 값의 패턴 양상만을 학습하는 방법으로 바꿔 driving
 - discretize method : KBinsdiscretizer library(in scikit-learn)
+<br>
+
+- kbinsdiscretizer python code
 ```python
 from sklearn.preprocessing import KBinsDiscretizer
 kb = KBinsDiscretizer(n_bins=10, strategy='uniform', encode='ordinal')
@@ -274,15 +453,165 @@ print("bin edges :\n", kb.bin_edges_ )
 
 
 #### Data log normalization
--시계열 데이터 정규화
+- 데이터 인풋 시 open data 이외에 다른 feature을 같이 활용하기 위해, 다음과 같은 방법으로 normalization을 취해줌. 일반적인 scikit-learn normalizizer은 바로 사용하기에는 대회 내에서 1380분일 때의 open price를 1로 수정하면서 전반적인 전처리가 이미 한번 된 상태이기 때문에 해당 방법을 사용함.
 
+- log normalizer python code
 ``` python
 data = data.apply(lambda x: np.log(x+1) - np.log(x[self.x_frames-1]+1))
 ```
 - 시계열 데이터 정규화 방법 출처 : https://github.com/heartcored98/Standalone-DeepLearning/blob/master/Lec8/Lab10_Stock_Price_Prediction_with_LSTM.ipynb(2019 KAIST 딥러닝 홀로서기 )
+___
+
+### Chapter. 5 - Pytorch modeling
+#### Pytorch LSTM trial
+- condition
+    1. Only coin 9 data use
+    2. Data preprocess - simple exponential smoothing
+    3. LSTM layer is 1
+<br>
+
+- pytorch LSTM python code
+```python
+class LSTM(nn.Module):
+    
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers, dropout, use_bn):
+        super(LSTM, self).__init__()
+        self.input_dim = input_dim 
+        self.hidden_dim = hidden_dim
+        self.output_dim = output_dim
+        self.num_layers = num_layers
+
+        self.dropout = dropout
+        self.use_bn = use_bn 
+        self.lstm = nn.LSTM(self.input_dim, self.hidden_dim, self.num_layers)
+
+        self.regressor = self.make_regressor()
+        
+    def init_hidden(self, batch_size):
+        return (torch.zeros(self.num_layers, batch_size, self.hidden_dim),
+                torch.zeros(self.num_layers, batch_size, self.hidden_dim))
+    
+    def make_regressor(self):
+        layers = []
+        if self.use_bn:
+            layers.append(nn.BatchNorm1d(self.hidden_dim))
+        layers.append(nn.Dropout(self.dropout))
+        
+        layers.append(nn.Linear(self.hidden_dim, self.hidden_dim))
+        layers.append(nn.ReLU())
+        layers.append(nn.Linear(self.hidden_dim, self.output_dim))
+        regressor = nn.Sequential(*layers)
+        return regressor
+    
+    def forward(self, X):
+        lstm_out, self.hidden = self.lstm(X)
+        y_pred = self.regressor(lstm_out[-1].view(X.shape[1], -1))
+        return y_pred
+```
+- 모델 학습 방법 시각화
+![multistep_lstm_image](./images/multistep_lstm.png)
+<center><Multistep LSTM modeling></center>
+
+<right>이미지 출처 : tensorflow tutorial</right>
+<br>
+
+- result : modeling 내 한번에 120개의 y값을 출력시, 다음 그림처럼 패턴에 상관없이 같은 y값을 출력하게 됨. -> 실패
+
+![pytorch_LSTM_coin9_image](./images/pytorch_LSTM_coin9.png)
+<center><pytorch LSTM coin9 prediction plot></center>
+
+Colab link : https://colab.research.google.com/drive/1I0Arck8qkV4FTXnOOYMxkpZGIRKCGj7J?usp=sharing
 
 
-### chapter.3 - RNN modeling
+이후, 한 샘플 내 데이터를 slicing 해서 과거 120 time-series 로 이후 120 time-series를 예측하는 모델로 변형해봤지만 실패.
+
+- one sample data slicing python code
+```python
+class WindowGenerator():
+    ''' Dataset Generate'''
+    def __init__(self, input_width, label_width, stride, data_arr, column_indices = column_indices,
+                 shfit = None, label_columns=None):
+    
+        # Store the raw data
+        self.data_arr = data_arr
+        # Work out the label column indices.
+        self.label_columns = label_columns
+        if label_columns is not None:
+            self.label_columns_indices = {name: i for i, name in enumerate(label_columns)}
+        self.column_indices = column_indices
+                
+        # Work out the window parameters.
+        self.input_width = input_width
+        self.label_width = label_width
+        self.shift = 1
+        if shfit is not None:
+            self.shift = shfit
+        self.stride = stride
+        
+        self.label_start = self.input_width + self.shift
+        self.total_window_size = self.label_start + self.label_width
+        
+        # input, label indices
+        self.input_slice = slice(0, self.input_width)
+        self.input_indices = np.arange(self.total_window_size)[self.input_slice]
+        
+        self.labels_slice = slice(self.label_start, None)
+        self.label_indices = np.arange(self.total_window_size)[self.labels_slice]
+        
+        self.X_arr, self.y_arr = self.split_windows()
+        
+    def __repr__(self):
+        return '\n'.join([
+            f'Total window size: {self.total_window_size}',
+            f'Input indices: {self.input_indices}',
+            f'Label indices: {self.label_indices}',
+            f'Label column name(s): {self.label_columns}'
+        ])
+
+    def split_windows(self):
+
+        X, y = list(), list()
+        sample_length = int(self.data_arr.shape[0])
+        split_length = int((self.data_arr.shape[1] - self.total_window_size)/self.stride) + 1
+        
+        for temp_id in range(sample_length):
+            for i in range(split_length):
+                
+                X.append(self.data_arr[temp_id, (i*self.stride) : (i*self.stride)+self.input_width])
+                y.append(self.data_arr[temp_id, (i*self.stride)+self.label_start : (i*self.stride)+self.total_window_size])
+
+        return np.array(X), np.array(y)
+
+    def __len__(self):
+        return len(self.X_arr)
+
+    def __getitem__(self, idx):
+        
+        X = self.X_arr[idx, :, :]
+        y = self.y_arr[idx, :, :]
+
+        return X, y
+```
+Colab link : https://colab.research.google.com/drive/11s1KCtT8NPvsaOR-1mYaR66lneQ1yxU7?usp=sharing
+
+
+이후, 모든 코인으로 확장해서 재적용 시도
+- condition
+    1. all coin data use
+    2. No data preprocess
+    3. log normalization
+    3. LSTM layer is 1
+<br>
+
+- result : 이전 모델 구조는 그대로 진행하였고, 데이터 세트만 기존에 9번 코인 데이터에서 코인에 상관없이 모든 데이터 세트를 적용함. -> 어차피 코인별 각기 다른 데이터 패턴 양상이 아닌, 코인과 무관하게 가격 데이터의 움직임은 그냥 일정 패턴 별로 나뉠 것으로 예상 -> 제대로 된 학습조차 안 되며, 코인 가격 자체가 seasonal아 아예 없어서 LSTM regression이 무의미한 것으로 판정.
+
+![pytorch_LSTM_allcoin_image](./images/pytorch_LSTM_allcoin.png)
+<center>LSTM prediction with all coin data</center>
+
+Colab link : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing
+
+#### Pytorch LSTM 
+___
 <a href ='./rnn_modeling.ipynb'>RNN 모델링</a>
 sample이 1208개 있고, 한 샘플당 1500개의 시리즈 구성 -> 여기서 또 1500개 375개로씩 짤라
 한 sample 당 4개의 미니 세트로 구성된건데.. 
@@ -302,10 +631,6 @@ datasetgenerate로 0 ~ 1000까지 샘플 가지고 오고.
 
 1, 1500, 12 - 
 
-
-### chapter. 4 - 실수차원 ARIMA
-### chapter. 5 - Neural prophet
-### chapter. 6 - tensorflow time series forecasting course study
 
 * reference : <a href = 'https://www.tensorflow.org/tutorials/structured_data/time_series?hl=ko#%EB%8B%A8%EC%9D%BC_%EC%8A%A4%ED%85%9D_%EB%AA%A8%EB%8D%B8'>tensorflow tutorial</a>
 * requirements 
@@ -362,8 +687,6 @@ how to use?
 
 
 
-
-
 ### 참고한 자료
 1. Time-Series Forecasting: NeuralProphet vs AutoML: https://towardsdatascience.com/time-series-forecasting-neuralprophet-vs-automl-fa4dfb2c3a9e
 
@@ -412,3 +735,7 @@ how to use?
 19. Bitcoin Time Series Prediction with LSTM : https://www.kaggle.com/jphoon/bitcoin-time-series-prediction-with-lstm
 
 20. 시즌 1, CNN 모델 팀 : https://dacon.io/competitions/official/235740/codeshare/2486?page=1&dtype=recent
+
+21. A Gentle Introduction to Exponential Smoothing for Time Series Forecasting in Python : https://machinelearningmastery.com/exponential-smoothing-for-time-series-forecasting-in-python/
+
+22. statsmodels docs : https://www.statsmodels.org/stable/examples/notebooks/generated/exponential_smoothing.html
