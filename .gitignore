@@ -5,10 +5,6 @@
 **/*.log
 **/.vscode/
 **/__pycache__/
-.vscode/
-__pycache__/
-experiment/
-coin_index/
-model/
+
 study/
 data/
