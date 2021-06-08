@@ -41,23 +41,23 @@ ___
 - quote asset volume = coin volume / btc volume
 > quote asset volume = Volume expressed in quote asset units. For pair DOGE/ BTC the volume is shown in BTC , instead of DOGE.
 
-> 예시) 가상화폐/거래화폐에서 거래화폐의 양
-> 한국돈으로 돌고돌아 계산(100만)
-> ex) btc/usdt 면 usdt의 가치 57000*1200에서의 qav = 100만/1200 => 8만xxx
-> btc/krw면 btc의 가치 7400만에서의 qav = 100만
-> tb_base_av
-> coin / xxxxx
-> volume / quote_av
-> 0 = 19.xxxxx
-> 1 = 0.028xxxxx
-> 2 = 0.268xxxxx
-> 3 = 0.238 xxxxx
-> 4 = 2.1312xxxx
-> 5 = 52.1123xxxx(**maximum coin**)
-> 6= 0.22421
-> 7= 19.3821
-> 8 = 0.003426
-> 9 = 0.00013(**minimum coin**)
+> 예시) 가상화폐/거래화폐에서 거래화폐의 양<br>
+> 한국돈으로 돌고돌아 계산(100만)<br>
+> ex) btc/usdt 면 usdt의 가치 57000*1200에서의 qav = 100만/1200 => 8만xxx<br>
+> btc/krw면 btc의 가치 7400만에서의 qav = 100만<br>
+> tb_base_av<br>
+> coin / xxxxx<br>
+> volume / quote_av<br>
+> 0 = 19.xxxxx<br>
+> 1 = 0.028xxxxx<br>
+> 2 = 0.268xxxxx<br>
+> 3 = 0.238 xxxxx<br>
+> 4 = 2.1312xxxx<br>
+> 5 = 52.1123xxxx(**maximum coin**)<br>
+> 6= 0.22421<br>
+> 7= 19.3821<br>
+> 8 = 0.003426<br>
+> 9 = 0.00013(**minimum coin**)<br>
 > ====> **작을수록 비싼 코인으로 추정**
 
 #### Open price outlier problem 
@@ -65,12 +65,12 @@ ___
 
 <p align='center'>
 <img src="./images/price_displot.png" width=500 height=300></img><br>
-open price distribution plot
+Figure. open price distribution plot
 </p>
 
 <p align='center'>
 <img src="./images/price_boxplot.png" width=500 height=300></img><br>
-price box plot
+Figure. price box plot
 </p>
 
 - open price outlier detection tempary method code
@@ -86,12 +86,12 @@ filtered_y_df = raw_y_df[~raw_y_df["sample_id"].isin(outlier_list)]
 
 <p align='center'>
 <img src="./images/outlier_image.png" width=500 height=300></img><br>
-outlier range boxplot
+Figure. outlier range boxplot
 </p>
 
 
 #### EDA code
-coin eda code link : <a href ='./coin_eda.ipynb'>"here"</a>
+coin eda code link : <a href ='./codes/Coin_EDA.ipynb'>"here"</a>
 <br>
 
 #### Data handling memo 
@@ -162,11 +162,11 @@ forecast_data = prophet.predict(future_data)
 ##### result plot
 <p align='center'>
 <img src="./images/season_1_pilot.png" width=600 height=300></img><br>
-season 1 model pilot
+Figure. season 1 model pilot
 </p>
 
 ##### season 1 pilot code
-season 1 pilot code link : <a href ='./season1_pilot.ipynb'>"here"</a>
+season 1 pilot code link : <a href ='./codes/season1_pilot.ipynb'>"here"</a>
 
 ___
 ### Chapter. 3 - Personal modeling prediction
@@ -193,7 +193,7 @@ def train(x_series, y_series, args):
 ##### result
 <p align='center'>
 <img src="./images/colab_arima_prediction.png" width=300 height=200><br>
-open price ARIMA prediction plot
+Figure. open price ARIMA prediction plot
 </p>
 
 Colab link : https://colab.research.google.com/drive/1x28Mi9MSqqkSTO2a8UU0wXDzgXNy2WT9?usp=sharing<br>
@@ -223,7 +223,7 @@ forecast_data = prophet.predict(future_data)
 ##### sample_id = 1, dataset 예측 결과
 <p align='center'>
 <img src="./images/colab_prophet_prediction.png" width=300 height=200><br>
-open price prophet prediction plot
+Figure. open price prophet prediction plot
 </p>
 <br>
 Colab link : https://colab.research.google.com/drive/1dDf6AIln31catWWDsrB_lbL-0M5DsZTd?usp=sharing<br>
@@ -390,7 +390,7 @@ def train(x_train, y_train, n_epoch, n_batch, x_val, y_val):
 ##### result
 <p align='center'>
 <img src="./images/keras_LSTM.png" width=500 height=300><br>
-Keras LSTM predition plot
+Figure. Keras LSTM predition plot
 </p>
 <br>
 
@@ -413,7 +413,7 @@ model.summary()
 ##### result
 <p align='center'>
 <img src="./images/keras_GRU.png" width=500 height=300><br>
-Keras GRU predition plot
+Figure. Keras GRU predition plot
 </p><br>
 
 Colab link : https://colab.research.google.com/drive/1w2GZXVXSjRX-tlI49WAcC77szQaK_H6R?usp=sharing<br>
@@ -463,7 +463,7 @@ def moving_average(arr, window_size = 10):
 ##### smoothing result
 <p align='center'>
 <img src='./images/smoothing.png'>
-price data smoothing plot
+Figure. price data smoothing plot
 </p>
 
 #### Data discretize
@@ -482,7 +482,7 @@ print("bin edges :\n", kb.bin_edges_ )
 ##### Discretize result
 <p align='center'>
 <img src="./images/kbinsdiscretize_plot.png" width=500 height=300><br>
-kbinsdiscretizer before & after plot
+Figure. kbinsdiscretizer before & after plot
 </p>
 
 
@@ -548,7 +548,7 @@ class LSTM(nn.Module):
 
 <p align='center'>
 <img src="./images/multistep_lstm.png"><br>
-Multistep LSTM modeling(source by : tensorflow tutorial)
+Figure. Multistep LSTM modeling(source by : tensorflow tutorial)
 </p><br>
 
 ##### result
@@ -556,7 +556,7 @@ Multistep LSTM modeling(source by : tensorflow tutorial)
 
 <p align='center'>
 <img src="./images/pytorch_LSTM_coin9.png"><br>
-coin9 LSTM prediction
+Figure. coin9 LSTM prediction
 </p><br>
 
 Colab link : https://colab.research.google.com/drive/1I0Arck8qkV4FTXnOOYMxkpZGIRKCGj7J?usp=sharing
@@ -648,7 +648,7 @@ Colab link : https://colab.research.google.com/drive/11s1KCtT8NPvsaOR-1mYaR66lne
 
 <p align='center'>
 <img src="./images/pytorch_LSTM_allcoin.png"><br>
-LSTM prediction with all coin data
+Figure. LSTM prediction with all coin data
 </p><br>
 
 Colab link : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing<br>
@@ -683,7 +683,7 @@ def outlier_detecter(raw_y_arr, outlier_criteria = 0.03):
 
 <p align='center'>
 <img src="./images/pytorch_LSTM_outlier_remove.png"><br>
-outlier remove & LSTM prediction
+Figure. outlier remove & LSTM prediction
 </p><br>
 
 
@@ -765,7 +765,7 @@ class CNN_LSTM(nn.Module):
 
 <p align='center'>
 <img src="./images/pytorch_Conv1dLSTM_allcoin.png">
-Conv1d-LSTM prediction
+Figure. Conv1d-LSTM prediction
 </p><br>
 
 #### RNN 모델링 결론
@@ -777,21 +777,21 @@ ___
 
 ### Chapter. 6 - Experiments & Simulation
 #### Experiment list
-- ARIMA Experiment code : <a herf='./ARIMA_Experiment.ipynb'>"here"</a>
+- ARIMA Experiment code : <a herf='.codes/ARIMA_Experiment.ipynb'>"here"</a>
 <br>
 
 - Neural Prophet codes
-    1. Basic : <a herf='./Neural_Prophet_Basic.ipynb.ipynb'>"here"</a>
-    2. Grid search : <a herf='./Neural_Prophet_Grid_search.ipynb.ipynb.ipynb'>"here"</a>
-    3. Best parameter : <a herf='./Neural_Prophet_Best-parameters.ipynb.ipynb.ipynb'>"here"</a>
-    4. Experiment : <a herf='./Neural_Prophet_Experiment.ipynb'>"here"</a>
+    1. Basic : <a herf='./codes/Neural_Prophet_Basic.ipynb.ipynb' target="_blank">"here"</a>
+    2. Grid search : <a herf='./codes/Neural_Prophet_Grid_search.ipynb.ipynb.ipynb' target="_blank">"here"</a>
+    3. Best parameter : <a herf='./codes/Neural_Prophet_Best-parameters.ipynb.ipynb.ipynb' target="_blank">"here"</a>
+    4. Experiment : <a herf='./codes/Neural_Prophet_Experiment.ipynb' target="_blank">"here"</a>
 <br>
 
 -  Pytorch Study
-    1. LSTM & Kbins regressor : <a herf='./Pytorch_LSTM_Kbins.ipynb'>"here"</a>
-    2. LSTM & log norm regressor : <a herf='./Pytorch_LSTM_Log-y-series.ipynb'>"here"</a>
-    3. Seq2Seq regressor : <a herf='./Pytorch_Seq2Seq_One-feature.ipynb'>"here"</a>
-    4. Conv1d-LSTM classifier : <a herf='./Pytorch_Conv1d_Classification.ipynb'>"here"</a>
+    1. LSTM & Kbins regressor : <a herf='./codes/Pytorch_LSTM_Kbins.ipynb' target="_blank">"here"</a>
+    2. LSTM & log norm regressor : <a herf='./codes/Pytorch_LSTM_Log-y-series.ipynb' target="_blank">"here"</a>
+    3. Seq2Seq regressor : <a herf='./codes/Pytorch_Seq2Seq_One-feature.ipynb' target="_blank">"here"</a>
+    4. Conv1d-LSTM classifier : <a herf='./codes/Pytorch_Conv1d_Classification.ipynb' target="_blank">"here"</a>
 <br>
 
 - Pytorch Colabs
@@ -801,7 +801,7 @@ ___
     3. LSTM & log normal : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing
 
 #### Simulation program
-Coin investing simulator code : <a herf='./simulator.py'>"here"</a>
+Coin investing simulator code : <a herf='./codes/simulator.py' target="_blank">"here"</a>
 ___
 #### 이후 시즌 3 진행 방향
 
