@@ -2,6 +2,7 @@
 <p align='center'>
 <img src="./images/cover_image.png"></img>
 </p>
+
 ### index 
 - Chapter. 1 - EDA
 - Chapter. 2 - Season 1 pilot
