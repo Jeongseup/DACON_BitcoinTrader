@@ -15,7 +15,7 @@ ___
 
 <p align='center'>
 <img src="./images/train_x_df_eda.png" width=600 height=300></img><br>
-데이터 샘플 예시
+Figure. 데이터 샘플 예시
 </p>
 
 #### In one sample, dataset description
@@ -31,7 +31,8 @@ ___
 
 
 <p align='center'>
-<img src="./images/coin_index.png" width=500 height=300></img><br>코인 인덱스 별 데이터 샘플 개수
+<img src="./images/coin_index.png" width=500 height=300></img><br>
+Figure. 코인 인덱스 별 데이터 샘플 개수
 </p>
 
 
@@ -91,7 +92,7 @@ Figure. outlier range boxplot
 
 
 #### EDA code
-coin eda code link : <a href ='./codes/Coin_EDA.ipynb'>"here"</a>
+coin eda code link : <a href ='./codes/Coin_EDA.ipynb' target="_blank">"here"</a>
 <br>
 
 #### Data handling memo 
@@ -166,7 +167,7 @@ Figure. season 1 model pilot
 </p>
 
 ##### season 1 pilot code
-season 1 pilot code link : <a href ='./codes/season1_pilot.ipynb'>"here"</a>
+season 1 pilot code link : <a href ='./codes/Season1_Pilot.ipynb' target="_blank">"here"</a>
 
 ___
 ### Chapter. 3 - Personal modeling prediction
@@ -778,22 +779,16 @@ ___
 ### Chapter. 6 - Experiments & Simulation
 #### Experiment list
 - ARIMA Experiment code : <a herf='.codes/ARIMA_Experiment.ipynb'>"here"</a>
-<br>
-
 - Neural Prophet codes
     1. Basic : <a herf='./codes/Neural_Prophet_Basic.ipynb.ipynb' target="_blank">"here"</a>
     2. Grid search : <a herf='./codes/Neural_Prophet_Grid_search.ipynb.ipynb.ipynb' target="_blank">"here"</a>
     3. Best parameter : <a herf='./codes/Neural_Prophet_Best-parameters.ipynb.ipynb.ipynb' target="_blank">"here"</a>
     4. Experiment : <a herf='./codes/Neural_Prophet_Experiment.ipynb' target="_blank">"here"</a>
-<br>
-
 -  Pytorch Study
     1. LSTM & Kbins regressor : <a herf='./codes/Pytorch_LSTM_Kbins.ipynb' target="_blank">"here"</a>
     2. LSTM & log norm regressor : <a herf='./codes/Pytorch_LSTM_Log-y-series.ipynb' target="_blank">"here"</a>
     3. Seq2Seq regressor : <a herf='./codes/Pytorch_Seq2Seq_One-feature.ipynb' target="_blank">"here"</a>
     4. Conv1d-LSTM classifier : <a herf='./codes/Pytorch_Conv1d_Classification.ipynb' target="_blank">"here"</a>
-<br>
-
 - Pytorch Colabs
     1. LSTM & smoothing : https://colab.research.google.com/drive/1uXBoRAMEza3Q0MRIrY33FKDJmN3lSKsi?usp=sharing
     2. Conv1d-LSTM : https://colab.research.google.com/drive/1UfPfdf6WSuYl4JYR2lMgdqRq7rAW8qIz
