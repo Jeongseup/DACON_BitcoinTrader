@@ -1,4 +1,7 @@
 ## 데이콘 비트코인 트레이더 시즌2 스터디
+<p align='center'>
+<img src="./images/cover_image.png"></img>
+</p>
 ### index 
 - Chapter. 1 - EDA
 - Chapter. 2 - Season 1 pilot
