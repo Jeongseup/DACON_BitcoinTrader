@@ -96,8 +96,7 @@ Figure. outlier range boxplot
 
 
 #### EDA code
-[coin eda code link](./codes/Coin_EDA.ipynb)
-
+coin eda code link : [here](./codes/Coin_EDA.ipynb)
 <br>
 
 #### Data handling memo 
@@ -172,7 +171,7 @@ Figure. season 1 model pilot
 </p>
 
 ##### season 1 pilot code
-season 1 pilot code link : <a href ='./codes/Season1_Pilot.ipynb' target="_blank">"here"</a>
+season 1 pilot code link : [here](./codes/Season1_Pilot.ipynb)
 
 ___
 ### Chapter. 3 - Personal modeling prediction
@@ -783,25 +782,28 @@ ___
 
 ### Chapter. 6 - Experiments & Simulation
 #### Experiment list
-- ARIMA Experiment code : <a herf='.codes/ARIMA_Experiment.ipynb'>"here"</a>
+- ARIMA Experiment code : [here](./codes/ARIMA_Experiment.ipynb)
 - Neural Prophet codes
-    1. Basic : <a herf='./codes/Neural_Prophet_Basic.ipynb.ipynb' target="_blank">"here"</a>
-    2. Grid search : <a herf='./codes/Neural_Prophet_Grid_search.ipynb.ipynb.ipynb' target="_blank">"here"</a>
-    3. Best parameter : <a herf='./codes/Neural_Prophet_Best-parameters.ipynb.ipynb.ipynb' target="_blank">"here"</a>
-    4. Experiment : <a herf='./codes/Neural_Prophet_Experiment.ipynb' target="_blank">"here"</a>
+    1. Basic : [here](./codes/Neural_Prophet_Basic.ipynb)
+    2. Grid search : [here](./codes/Neural_Prophet_Grid_search.ipynb)
+    3. Best parameter : [here](./codes/Neural_Prophet_Best-parameters.ipynb)
+    4. Experiment : [here](./codes/Neural_Prophet_Experiment.ipynb)
 -  Pytorch Study
-    1. LSTM & Kbins regressor : <a herf='./codes/Pytorch_LSTM_Kbins.ipynb' target="_blank">"here"</a>
-    2. LSTM & log norm regressor : <a herf='./codes/Pytorch_LSTM_Log-y-series.ipynb' target="_blank">"here"</a>
-    3. Seq2Seq regressor : <a herf='./codes/Pytorch_Seq2Seq_One-feature.ipynb' target="_blank">"here"</a>
-    4. Conv1d-LSTM classifier : <a herf='./codes/Pytorch_Conv1d_Classification.ipynb' target="_blank">"here"</a>
+    1. LSTM & Kbins regressor : [here](./codes/Pytorch_LSTM_Kbins.ipynb)
+    2. LSTM & log norm regressor : [here](./codes/Pytorch_LSTM_Log-y-series.ipynb)
+    3. Seq2Seq regressor : [here](./codes/Pytorch_Seq2Seq_One-feature.ipynb)
+    4. Conv1d-LSTM classifier : [here](./codes/Pytorch_Conv1d_Classification.ipynb)
 - Pytorch Colabs
     1. LSTM & smoothing : https://colab.research.google.com/drive/1uXBoRAMEza3Q0MRIrY33FKDJmN3lSKsi?usp=sharing
     2. Conv1d-LSTM : https://colab.research.google.com/drive/1UfPfdf6WSuYl4JYR2lMgdqRq7rAW8qIz
     2. LSTM & outlier remover : https://colab.research.google.com/drive/1lnj7t92-yEGE-U4NngMSIyu72pgvSQ34?usp=sharing
     3. LSTM & log normal : https://colab.research.google.com/drive/1blDNKqxy6GvTkR-rq8pjn9eUL0IUpShi?usp=sharing
 
+※ 혹시 경로변경으로 링크가 안 열릴 수도 있어서 폴더 링크를 따로 남깁니다.
+Colabs 노트북 폴더 링크 :https://drive.google.com/drive/folders/1UNQQqKb_b2bhm7vpyjj_WZbtko4LFuBY?usp=sharing
+
 #### Simulation program
-Coin investing simulator code : <a herf='./codes/simulator.py' target="_blank">"here"</a>
+Coin investing simulator code : [here](./codes/simulator.py)
 ___
 #### 이후 시즌 3 진행 방향
 
