@@ -96,7 +96,8 @@ Figure. outlier range boxplot
 
 
 #### EDA code
-coin eda code link : <a href ='./codes/Coin_EDA.ipynb' target="_blank">"here"</a>
+[coin eda code link](./codes/Coin_EDA.ipynb)
+
 <br>
 
 #### Data handling memo 
