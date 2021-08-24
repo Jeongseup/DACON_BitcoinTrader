@@ -1,9 +1,21 @@
 ## 데이콘 비트코인 트레이더 시즌2 스터디
+
+### 프로젝트 개요
+
+-   프로젝트 과정 : 인천대학교 산업경영공학과 캡스톤 디자인(공과대학 졸업 작품)
+-   프로젝트 명 : 머신러닝을 통한 비트코인 가격 예측
+-   프로젝트 기간 : 21.04.01 ~ 21.05.31
 <p align='center'>
 <img src="./images/cover_image.png"></img>
 </p>
+___
+### 프로젝트 수행 목적
 
-### index 
+본 '머신러닝을 통한 비트코인 가격예측' 프로젝트는 인천대학교 산업경영공학과 4학년 재학생들의 졸업 작품을 위해 시작한 프로젝트입니다. 가급적 교내 문제가 아닌 실생활에서 접근가능한 문제를 다루는 것에 초점을 맞추었으며, 최근 이슈가 되고 있는 비트코인에 대해 다뤄보는 것이 좋겠다라는 목적으로 해당 프로젝트를 시작하게 되었습니다.
+
+이로써 산업경영공학 졸업작품을 위해 데이콘 인공지능 비트 트레이더 경진대회에 참가하였습니다. 결과적으로 좋은 성과를 거두지는 못하였느나, 학문적으로 다양한 접근을 시도해보았다는 점에 의미를 두고 봐주시면 감사하겠습니다.
+
+본 프로젝트의 구성은 아래와 같습니다.
 - Chapter. 1 - EDA
 - Chapter. 2 - Season 1 pilot
 - Chapter. 3 - Personal modeling prediction
@@ -12,6 +24,19 @@
 - Chapter. 6 - Experiments & Simulation
 - Reference
 ___
+### 프로젝트 설명
+
+본 프로젝트 수행은 이 문제는 Forecasting problem이라는 가정하에 진행하였습니다. 프로젝트 초기에는 EDA를 통해 이번 프로젝트에서 다룰 데이터에 대해 이해를 하였습니다. (일반적인 가격 데이터 이외에 직관적으로 이해하기 어려운 데이터들이 존재하였기에 수행하였습니다) 또한, 시즌1 이 존재하였기에 기존 팀들은 이 문제에 대해 어떻게 접근하였는지 살펴보았고 이후 기본적인 ARIMA 와 Prophet 모델을 기준으로 두고 이후 Pytorch framework와 Tensorflow framework를 바탕으로 Neural Netwokr 모델들도 수행하였습니다.
+
+수행과정을 간단히 설명드리자면, 딥 뉴럴 네트워크 모델들(LSTM, Conv1d, Seq2Seq)의 능력이 기본 모델인 ARIMA와 Prophet 모델들에 비해 탁월하지 않았습니다. 그래서 저희는 가격 데이터 변동폭이 너무 커서 일반적인 forecasting modeling을 바로 할 수 없다고 판단하여 추가적인 data handling을 하였습니다. (simple exponential smoothing과 moving average smoothing 그리고 data discretize 를 해보았습니다. 추가로 Fractional differencing을 해보기도 하였으나 ARIMA 모델에서만 다뤄봤습니다)
+
+data handling 이후에는 보다 나은 결과가 있을 수 있다고 생각하였으나 코인 데이터의 변동을 설명하기에는 역부족이었습니다. 결론적으로 여러 실험을 해보았으나 부분적으로 라도 예측가능한 모델링을 수행하지는 못하였습니다.
+
+___
+### 프로젝트 발표영상 
+youtube link : https://www.youtube.com/watch?v=-ZSlri43b5A
+___
+
 ### Chapter. 1 - EDA(Exploratory Data Analysis)
 #### train_x_df EDA 과정 설명
 * sample_id : 한 시퀀스 샘플, 한 시퀀스는 1380분의 시계열 데이터로 구성
